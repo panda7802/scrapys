@@ -1,0 +1,8 @@
+创建项目
+scrapy startproject douban
+
+创建
+cd spiders ; scrapy genspider douban_spider movie.douban.com
+
+运行
+scrapy crawl douban_spider

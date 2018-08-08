@@ -1,0 +1,18 @@
+# coding=utf-8
+lxdzx_bili_show_list = [('title', '标题'),
+                        ('created', '创建时间'),
+                        ('play', '播放量'),
+                        ('comment', '评论数'),
+                        ('video_review', '弹幕数'),
+                        ('favorites', '收藏量'),
+                        ('length', '长度'),
+                        ('author', '作者'),
+                        ('review', '回顾'),
+                        ('typeid', '类型'),
+                        ('pic', '图片'),
+                        ('subtitle', '子标题'),
+                        ('description', '描述'),
+                        ('aid', '详细信息id'),
+                        ('mid', '当前id'),
+                        ('copyright', '版权'),
+                        ('hide_click', '不可点击')]
