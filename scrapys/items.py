@@ -32,3 +32,6 @@ class LxdzxBiliItem(scrapy.Item):
     mid = scrapy.Field()  # 当前id
     copyright = scrapy.Field()  # 版权
     hide_click = scrapy.Field()  # 不可点击
+    #
+    gl_title = scrapy.Field()  # 关联标题
+    gl_url = scrapy.Field()  # 关联url

@@ -70,7 +70,7 @@ COOKIES_DEBUG = True
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'scrapys.pipelines.ScrapysPipeline': 300,
-    'scrapys.pipelines.LxdzxBiliPipeline': 301,
+    # 'scrapys.pipelines.LxdzxBiliPipeline': 301,
 }
 
 HTTPERROR_ALLOWED_CODES = [403, 404]

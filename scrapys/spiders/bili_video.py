@@ -17,7 +17,7 @@ sys.setdefaultencoding("utf-8")
 # 获取当前页面
 def get_curr_url(page_index=1, page_size=30, mid="22500342"):
     # FIXME
-    mid = "37974444"
+    # mid = "37974444"
     curr_url = "http://space.bilibili.com/ajax/member/getSubmitVideos?mid=" + str(mid) \
                + "&pagesize=" + str(page_size) \
                + "&tid=0&page=" + str(page_index) + "&keyword=&order=pubdate"
@@ -34,7 +34,7 @@ class BiliVideoSpider(scrapy.Spider):
     name = 'bili_video'
     allowed_domains = ['space.bilibili.com']
     page_index = 1
-    page_size = 30
+    page_size = 50
 
     start_urls = [get_curr_url(page_index)]
 
@@ -45,19 +45,31 @@ class BiliVideoSpider(scrapy.Spider):
                              cookies=BASE_COOKIES,  # 似乎只要有就行
                              meta={'cookiejar': True})  # 这里带着cookie发出请求
 
-    def get_detail(self, response):
+    def get_detail(self, response):  # 关联
         if response.status != 200:
             req_url = response.request.url
             err_urls.append(req_url)
             print "get_detail请求错误 : ", req_url, " 错误码 : ", response.status
             return
 
-        s_json = response.text
-        print "response get_detail : ", s_json
-        item = response.meta['item']
-        print "get_detail : " + str(item)
-        # populate more `item` fields
-        return item
+        parent_item = response.meta['item']
+        s_json = response.text.decode('unicode_escape')
+        if len(s_json) <= 10:
+            yield parent_item
+            return
+
+        gl_list = json.loads(s_json)  # 关联list
+        if len(gl_list):
+            for item in gl_list:
+                try:
+                    s_items = str(item).split(",")
+                    parent_item["gl_title"] = eval(str(s_items[2]))  # 标题
+                    parent_item["gl_url"] = "https://www.bilibili.com/video/av" + (s_items[1]).strip()
+                    yield parent_item
+                except Exception, e:
+                    traceback.print_exc()
+        else:
+            yield parent_item
 
     def parse(self, response):
         print "+++++++++++++++ start parse " + str(self.page_index) + "+++++++++++++++\n"
@@ -69,7 +81,7 @@ class BiliVideoSpider(scrapy.Spider):
             return
 
         s_json = response.text  # .decode('unicode_escape')
-        print "response : ", s_json
+        # print "response : ", s_json
         status = json.loads(s_json)['status']
         if not status:
             logging.error("==========状态异常 status is err ==========")
@@ -83,22 +95,25 @@ class BiliVideoSpider(scrapy.Spider):
             for show_item in lxdzx_bili_show_list:
                 try:
                     key = show_item[0]
-                    bili_item[key] = str(item[key])  # .decode('unicode_escape').encode("gbk", "ignore")
+                    bili_item[key] = str(item[key])
                 except Exception, e:
                     traceback.print_exc()
-            yield bili_item
+            # yield bili_item
             aid = bili_item['aid']
-            next_url = get_view_url(aid)
-            print "next_url:", next_url
-            yield scrapy.Request(url=next_url, headers=BASE_HEAD, dont_filter=True,
+            detal_url = get_view_url(aid)
+            print "detal_url:", detal_url
+            yield scrapy.Request(url=detal_url, headers=BASE_HEAD, dont_filter=True,
                                  cookies=BASE_COOKIES,
                                  meta={'item': bili_item}, callback=self.get_detail)
-            return
-
-            # FIXME 单页
-            # # 下一页
-            # self.page_index += 1
-            # if len_vlist >= self.page_size:
-            #     next_url = get_curr_url(self.page_index)
-            #     print "next_url:", next_url
-            #     yield scrapy.Request(next_url, callback=self.parse)
+        return
+        # # 下一页
+        # self.page_index += 1
+        # print "page_index : ", self.page_index
+        # if len(vlist) >= self.page_size:
+        #     if self.page_index > 2:
+        #         return
+        #     next_url = get_curr_url(self.page_index)
+        #     print "next_url:", next_url
+        #     yield scrapy.Request(url=next_url, headers=BASE_HEAD, dont_filter=True,
+        #                          cookies=BASE_COOKIES,
+        #                          meta={'item': bili_item}, callback=self.parse)

@@ -17,6 +17,9 @@ lxdzx_bili_show_list = [('title', '标题'),
                         ('copyright', '版权'),
                         ('hide_click', '不可点击')]
 
+lxdzx_bili_detail_list = [('gl_title', '关联标题'),
+                          ('gl_url', '关联URL')]
+
 BASE_COOKIES = {'a': 'b'}
 
 BASE_HEAD = {
