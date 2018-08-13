@@ -7,8 +7,8 @@ import scrapy
 import sys
 
 from scrapys.items import LxdzxBiliItem
-from tutils.err_info import err_urls
-from tutils.tglobal_data import *
+from tutils.t_err_info import err_urls
+from tutils.t_global_data import *
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -92,28 +92,28 @@ class BiliVideoSpider(scrapy.Spider):
         # 处理
         for item in vlist:
             bili_item = LxdzxBiliItem()
-            for show_item in lxdzx_bili_show_list:
+            for show_item in bili_show_list:
                 try:
                     key = show_item[0]
                     bili_item[key] = str(item[key])
                 except Exception, e:
                     traceback.print_exc()
-            # yield bili_item
-            aid = bili_item['aid']
-            detal_url = get_view_url(aid)
-            print "detal_url:", detal_url
-            yield scrapy.Request(url=detal_url, headers=BASE_HEAD, dont_filter=True,
+            yield bili_item
+            # aid = bili_item['aid']
+            # detal_url = get_view_url(aid)
+            # print "detal_url:", detal_url
+            # yield scrapy.Request(url=detal_url, headers=BASE_HEAD, dont_filter=True,
+            #                      cookies=BASE_COOKIES,
+            #                      meta={'item': bili_item}, callback=self.get_detail)
+        # return
+        # 下一页
+        self.page_index += 1
+        print "page_index : ", self.page_index
+        if len(vlist) >= self.page_size:
+            if self.page_index > 2:
+                return
+            next_url = get_curr_url(self.page_index)
+            print "next_url:", next_url
+            yield scrapy.Request(url=next_url, headers=BASE_HEAD, dont_filter=True,
                                  cookies=BASE_COOKIES,
-                                 meta={'item': bili_item}, callback=self.get_detail)
-        return
-        # # 下一页
-        # self.page_index += 1
-        # print "page_index : ", self.page_index
-        # if len(vlist) >= self.page_size:
-        #     if self.page_index > 2:
-        #         return
-        #     next_url = get_curr_url(self.page_index)
-        #     print "next_url:", next_url
-        #     yield scrapy.Request(url=next_url, headers=BASE_HEAD, dont_filter=True,
-        #                          cookies=BASE_COOKIES,
-        #                          meta={'item': bili_item}, callback=self.parse)
+                                 meta={'item': bili_item}, callback=self.parse)

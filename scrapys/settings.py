@@ -69,8 +69,9 @@ COOKIES_DEBUG = True
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'scrapys.pipelines.ScrapysPipeline': 300,
+    # 'scrapys.pipelines.ScrapysPipeline': 300,
     # 'scrapys.pipelines.LxdzxBiliPipeline': 301,
+    'scrapys.list.pipelines_list.TBiliVideoListPipeline': 300,
 }
 
 HTTPERROR_ALLOWED_CODES = [403, 404]

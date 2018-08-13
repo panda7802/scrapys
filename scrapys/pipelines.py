@@ -10,8 +10,8 @@ import time
 
 from openpyxl.styles import Alignment
 
-from tutils.err_info import err_urls
-from tutils.tglobal_data import *
+from tutils.t_err_info import err_urls
+from tutils.t_global_data import *
 from openpyxl import Workbook
 
 
@@ -23,16 +23,16 @@ class ScrapysPipeline(object):
         del err_urls[:]
         title_list = []
         # 打印表头
-        for item in lxdzx_bili_show_list:
+        for item in bili_show_list:
             title_list.append(item[1])
-        for item in lxdzx_bili_detail_list:
+        for item in bili_detail_list:
             title_list.append(item[1])
 
         self.wb = Workbook()
         self.ws = self.wb.active
         self.ws.append(title_list)  # 设置表头
         self.start_row = 1
-        self.end_row = 1  # len(lxdzx_bili_show_list)
+        self.end_row = 1  # len(bili_show_list)
         self.start_column = 1
         self.end_column = self.start_column
         self.wb.save(self.filename)  # 保存xlsx文件
@@ -40,7 +40,7 @@ class ScrapysPipeline(object):
     def process_item(self, item, spider):
         # print "======process_item==========="
         line = []
-        for show_item in lxdzx_bili_show_list:
+        for show_item in bili_show_list:
             try:
                 key = show_item[0]
                 value = item[key].replace("\n", " ").replace("\r", " ").replace(",", " ").strip()
@@ -50,7 +50,7 @@ class ScrapysPipeline(object):
             except Exception, e:
                 traceback.print_exc()
 
-        for show_item in lxdzx_bili_detail_list:
+        for show_item in bili_detail_list:
             try:
                 key = show_item[0]
                 value = item[key].replace("\n", " ").replace("\r", " ").replace(",", " ").strip()
@@ -84,7 +84,7 @@ class ScrapysPipeline(object):
         #     curr_index += 1
         #     title = row[0].value
         #     if title == last_title:
-        #         for index in range(len(lxdzx_bili_show_list)):
+        #         for index in range(len(bili_show_list)):
         #             self.ws.merge_cells(start_row=start_index, start_column=index + 1,
         #                                 end_row=curr_index, end_column=index + 1)
         #     else:
@@ -103,7 +103,7 @@ class LxdzxBiliPipeline(object):
         print "------__init__ LxdzxBiliPipeline------"
         del err_urls[:]
         self.filename = open("lxdzx_bili.csv", "wb")
-        for show_item in lxdzx_bili_show_list:
+        for show_item in bili_show_list:
             try:
                 key = show_item[1]
                 self.filename.write(key + ",")
@@ -113,7 +113,7 @@ class LxdzxBiliPipeline(object):
 
     def process_item(self, item, spider):
         value = ""
-        for show_item in lxdzx_bili_show_list:
+        for show_item in bili_show_list:
             try:
                 key = show_item[0]
                 value = item[key].replace("\n", " ").replace("\r", " ").replace(",", " ").strip()

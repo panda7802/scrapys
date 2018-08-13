@@ -3,13 +3,13 @@ import openpyxl
 from openpyxl import Workbook, load_workbook
 from scrapy import cmdline
 
-from tutils.tglobal_data import lxdzx_bili_show_list
+from tutils.t_global_data import bili_show_list
 
 filename = "obj.xlsx"
 wb = load_workbook(filename)
 sheet = wb.get_sheet_by_name('Sheet')
 start_row = 1
-end_row = 1  # len(lxdzx_bili_show_list)
+end_row = 1  # len(bili_show_list)
 start_column = 1
 end_column = start_column
 curr_index = 0  # 当前合并的行号
@@ -25,7 +25,7 @@ for row in sheet.rows:
     curr_index += 1
     title = row[0].value
     if title == last_title:
-        for index in range(len(lxdzx_bili_show_list)):
+        for index in range(len(bili_show_list)):
             sheet.merge_cells(start_row=start_index, start_column=index + 1,
                               end_row=curr_index, end_column=index + 1)
     else:
