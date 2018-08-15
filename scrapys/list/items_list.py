@@ -12,7 +12,18 @@ class EmptyItem(scrapy.Item):
     pass
 
 
+class TBiliMidItem(scrapy.Item):
+    """
+    关键字列表
+    """
+    name = scrapy.Field()  # 标题
+    mid = scrapy.Field()  # 序号
+
+
 class TBiliVideoListItem(scrapy.Item):
+    """
+    视频项
+    """
     title = scrapy.Field()  # 标题
     subtitle = scrapy.Field()  # 子标题
     comment = scrapy.Field()  # 评论数
@@ -27,6 +38,6 @@ class TBiliVideoListItem(scrapy.Item):
     pic = scrapy.Field()  # 图片
     description = scrapy.Field()  # 描述
     aid = scrapy.Field()  # 详细信息id
-    mid = scrapy.Field()  # 当前id
+    mid = scrapy.Field()  # 当前组id
     copyright = scrapy.Field()  # 版权
     hide_click = scrapy.Field()  # 不可点击

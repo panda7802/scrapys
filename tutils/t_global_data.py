@@ -45,6 +45,8 @@ BASE_HEAD = {
 }
 
 
+db_conn = None
+
 
 
 # BASE_HEAD = {

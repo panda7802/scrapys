@@ -4,20 +4,24 @@
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-
-from scrapys.list.action import write_list_title, write_list
-from scrapys.list.items_list import TBiliVideoListItem, EmptyItem
+from scrapys.list import action
+from scrapys.list.items_list import TBiliVideoListItem, TBiliMidItem
 from tutils.t_err_info import err_urls
 
 
 class TBiliVideoListPipeline(object):
     def __init__(self):
         print "------__init__ BiliVideoListPipeline------"
-        write_list_title()
+        action.write_list_title()
+        # action.create_tables()
 
     def process_item(self, item, spider):
         if isinstance(item, TBiliVideoListItem):
-            write_list(item)
+            action.write_list(item)
+            # action.write_list2db(item)
+        if isinstance(item, TBiliMidItem):
+            action.write_mid(item)
+
         return item
 
     def close_spider(self, sqider):

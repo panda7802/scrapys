@@ -7,6 +7,7 @@ import scrapy
 import sys
 
 from scrapys.list.items_list import TBiliVideoListItem
+from tutils import t_global_data
 from tutils.t_err_info import err_urls
 from tutils.t_global_data import *
 
@@ -16,8 +17,15 @@ sys.setdefaultencoding("utf-8")
 LIST_PAGE_SIZE = 30
 
 
-# 获取当前页面
-def get_curr_url(page_index=1, page_size=LIST_PAGE_SIZE, mid="22500342", order="pubdate"):
+def get_list_url(page_index=1, page_size=LIST_PAGE_SIZE, mid="22500342", order="pubdate"):
+    """
+    获取当前页面
+    :param page_index:
+    :param page_size:
+    :param mid:
+    :param order:
+    :return:
+    """
     curr_url = "http://space.bilibili.com/ajax/member/getSubmitVideos?mid=" + str(mid) \
                + "&pagesize=" + str(page_size) \
                + "&tid=0&page=" + str(page_index) + "&keyword=&order=" + order
@@ -45,11 +53,27 @@ class BiliVideoListSpider(scrapy.Spider):
     allowed_domains = ['space.bilibili.com']
     start_urls = [""]
 
+    def __init__(self, mids=None, *args, **kwargs):
+        super(BiliVideoListSpider, self).__init__(*args, **kwargs)
+        self.mids = mids
+        if None is self.mids:
+            self.mids = ""
+
     def start_requests(self):
-        for key in obj_projects:
-            yield scrapy.Request(url=get_curr_url(mid=key), headers=BASE_HEAD, dont_filter=True,
+        print "开始获取列表 : ", self.mids
+        s_mid = str(self.mids)
+        if len(s_mid) <= 1 and s_mid.find(",") <= 0:
+            print "没有mid，无需爬虫"
+            return
+        self.mids = s_mid.split(",")
+
+        for mid in self.mids:
+            if len(mid) <= 0:
+                continue
+            print "开始解析 ： ", get_list_url(mid=mid)
+            yield scrapy.Request(url=get_list_url(mid=mid), headers=BASE_HEAD, dont_filter=True,
                                  cookies=BASE_COOKIES,  # 似乎只要有就行
-                                 meta={FLAG_PAGE_INDEX: 1, FLAG_KEY_WORD: key})
+                                 meta={FLAG_PAGE_INDEX: 1, FLAG_KEY_WORD: mid})
 
     def parse(self, response):
         page_index = response.meta[FLAG_PAGE_INDEX]
@@ -78,13 +102,11 @@ class BiliVideoListSpider(scrapy.Spider):
                 except Exception, e:
                     traceback.print_exc()
             yield list_item
-
-        # 下一页
-        page_index += 1
+        page_index += 1  # 下一页
         print "page_index : ", page_index
-        if len(vlist) >= LIST_PAGE_SIZE:
-            next_url = get_curr_url(page_index=page_index, mid=mid)
-            print "next_url:", next_url
-            yield scrapy.Request(url=next_url, headers=BASE_HEAD, dont_filter=True,
-                                 cookies=BASE_COOKIES,
-                                 meta={FLAG_PAGE_INDEX: page_index, FLAG_KEY_WORD: mid}, callback=self.parse)
+        # if len(vlist) >= LIST_PAGE_SIZE:
+        #     next_url = get_mid_url(page_index=page_index, mid=mid)
+        #     print "next_url:", next_url
+        #     yield scrapy.Request(url=next_url, headers=BASE_HEAD, dont_filter=True,
+        #                          cookies=BASE_COOKIES,
+        #                          meta={FLAG_PAGE_INDEX: page_index, FLAG_KEY_WORD: mid}, callback=self.parse)
