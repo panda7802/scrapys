@@ -3,7 +3,7 @@ import openpyxl
 from openpyxl import Workbook, load_workbook
 from scrapy import cmdline
 
-from tutils.t_global_data import bili_show_list
+from tscrapy_utils.t_global_data import bili_show_list
 
 filename = "obj.xlsx"
 wb = load_workbook(filename)

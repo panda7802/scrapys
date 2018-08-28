@@ -6,10 +6,11 @@ import traceback
 import scrapy
 import sys
 
+from scrapys.items import LxdzxBiliItem
 from scrapys.list.items_list import TBiliVideoListItem
-from tutils import t_global_data
-from tutils.t_err_info import err_urls
-from tutils.t_global_data import *
+from tscrapy_utils import t_global_data
+from tscrapy_utils.t_err_info import err_urls
+from tscrapy_utils.t_global_data import *
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -95,13 +96,16 @@ class BiliVideoListSpider(scrapy.Spider):
         # 处理
         for item in vlist:
             list_item = TBiliVideoListItem()
+            db_item = LxdzxBiliItem()
             for show_item in bili_show_list:
                 try:
                     key = show_item[0]
                     list_item[key] = str(item[key])
+                    db_item[key] = str(item[key])
                 except Exception, e:
                     traceback.print_exc()
             yield list_item
+            yield db_item
         page_index += 1  # 下一页
         print "page_index : ", page_index
         # if len(vlist) >= LIST_PAGE_SIZE:

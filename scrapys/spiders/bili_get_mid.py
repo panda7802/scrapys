@@ -4,8 +4,8 @@ import traceback
 import scrapy
 
 from scrapys.list.items_list import TBiliMidItem
-from tutils import t_global_data
-from tutils.t_global_data import BASE_HEAD, BASE_COOKIES, FLAG_KEY_WORD
+from tscrapy_utils import t_global_data
+from tscrapy_utils.t_global_data import BASE_HEAD, BASE_COOKIES, FLAG_KEY_WORD
 
 
 def get_mid_url(keyword=""):

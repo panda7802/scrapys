@@ -4,9 +4,10 @@
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
+from scrapys.items import LxdzxBiliItem
 from scrapys.list import action
 from scrapys.list.items_list import TBiliVideoListItem, TBiliMidItem
-from tutils.t_err_info import err_urls
+from tscrapy_utils.t_err_info import err_urls
 
 
 class TBiliVideoListPipeline(object):
@@ -18,9 +19,10 @@ class TBiliVideoListPipeline(object):
     def process_item(self, item, spider):
         if isinstance(item, TBiliVideoListItem):
             action.write_list(item)
-            # action.write_list2db(item)
         if isinstance(item, TBiliMidItem):
             action.write_mid(item)
+        if isinstance(item, LxdzxBiliItem):
+            item.save()
 
         return item
 

@@ -9,9 +9,9 @@ import os
 
 from openpyxl import Workbook
 
-from tutils import t_global_data
-from tutils.t_err_info import err_urls
-from tutils.t_global_data import obj_projects, bili_show_list
+from tscrapy_utils import t_global_data
+from tscrapy_utils.t_err_info import err_urls
+from tscrapy_utils.t_global_data import obj_projects, bili_show_list
 
 
 def get_file_name(name):

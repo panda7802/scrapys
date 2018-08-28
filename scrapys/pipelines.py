@@ -10,8 +10,8 @@ import time
 
 from openpyxl.styles import Alignment
 
-from tutils.t_err_info import err_urls
-from tutils.t_global_data import *
+from tscrapy_utils.t_err_info import err_urls
+from tscrapy_utils.t_global_data import *
 from openpyxl import Workbook
 
 
@@ -59,39 +59,12 @@ class ScrapysPipeline(object):
                 traceback.print_exc()
 
         self.ws.append(line)  # 将数据以行的形式添加到xlsx中
-        # # 合并
-        # for each in Li:
-        #     self.end_row = self.start_row + len(each) - 1
-        #     self.ws.merge_cells(start_row=self.start_row, end_row=self.end_row, start_column=self.start_column,
-        #                         end_column=self.end_column)
-        #     self.start_column = self.end_column + 1
-
         self.wb.save(self.filename)  # 保存xlsx文件
+        item.save()
         return item
 
     def close_spider(self, sqider):
         print "------close_spider ScrapysPipeline------"
-
-        last_title = ""
-        curr_index = 0  # 当前合并的行号
-        start_index = 0  # 开始合并的行号
-        # 合并单元格
-        print "=======合并单元格======="
-        # for row in self.ws.rows:
-        #     if 0 == curr_index:
-        #         curr_index += 1
-        #         continue
-        #     curr_index += 1
-        #     title = row[0].value
-        #     if title == last_title:
-        #         for index in range(len(bili_show_list)):
-        #             self.ws.merge_cells(start_row=start_index, start_column=index + 1,
-        #                                 end_row=curr_index, end_column=index + 1)
-        #     else:
-        #         last_title = title
-        #         start_index = curr_index
-        # self.wb.save(self.filename)  # 保存xlsx文件
-
         # 打印错误
         print "err urls:"
         for err_url in err_urls:
