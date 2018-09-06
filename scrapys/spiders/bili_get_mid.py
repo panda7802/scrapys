@@ -50,6 +50,8 @@ class BiliGetMidSpider(scrapy.Spider):
         keyword = response.meta[FLAG_KEY_WORD]
         value = ""
         try:
+            # a = response.xpath(".//*[@class='user-list']")
+            # print a
             mid_list = response.xpath(".//*[@class='user-list']/li")
             for item in mid_list:
                 href = str(item.xpath("./div[@class='up-face']/a/@href").extract_first())

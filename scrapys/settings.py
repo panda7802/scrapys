@@ -104,18 +104,18 @@ logging.basicConfig(
     level=logging.ERROR
 )
 
-import django.core.handlers.wsgi
-import sys
-import os
-
-# DJANGO_PROJECT_SCRAPY_PATH = 'D:\lxdzx\lxdzx_server\scrapys'
-DJANGO_PROJECT_PATH = '../../lxdzx_server'
-DJANGO_SETTINGS_MODULE = 'lxdzx_server.settings'
-
-sys.path.insert(0, DJANGO_PROJECT_PATH)
-# sys.path.insert(0, DJANGO_PROJECT_SCRAPY_PATH)
-os.environ['DJANGO_SETTINGS_MODULE'] = DJANGO_SETTINGS_MODULE
-# os.environ.setdefault("DJANGO_SETTINGS_MODULE", DJANGO_SETTINGS_MODULE)
-# application = django.core.handlers.wsgi.WSGIHandler()
-print "===========setting over==========="
-django.setup()
+# import django.core.handlers.wsgi
+# import sys
+# import os
+#
+# # DJANGO_PROJECT_SCRAPY_PATH = 'D:\lxdzx\lxdzx_server\scrapys'
+# DJANGO_PROJECT_PATH = '../../lxdzx_server'
+# DJANGO_SETTINGS_MODULE = 'lxdzx_server.settings'
+#
+# sys.path.insert(0, DJANGO_PROJECT_PATH)
+# # sys.path.insert(0, DJANGO_PROJECT_SCRAPY_PATH)
+# os.environ['DJANGO_SETTINGS_MODULE'] = DJANGO_SETTINGS_MODULE
+# # os.environ.setdefault("DJANGO_SETTINGS_MODULE", DJANGO_SETTINGS_MODULE)
+# # application = django.core.handlers.wsgi.WSGIHandler()
+# print "===========setting over==========="
+# django.setup()

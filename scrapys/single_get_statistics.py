@@ -1,13 +1,15 @@
 # coding=utf-8
-
+import commands
+import time
 from scrapy import cmdline
 
 import django.core.handlers.wsgi
 import sys
 import os
 
+from subprocess import Popen, PIPE
+
 if __name__ == "__main__":
-    # DJANGO_PROJECT_SCRAPY_PATH = 'D:\lxdzx\lxdzx_server\scrapys'
     DJANGO_PROJECT_PATH = '../../lxdzx_server'
     DJANGO_SETTINGS_MODULE = 'lxdzx_server.settings'
 
@@ -19,14 +21,3 @@ if __name__ == "__main__":
     print "===========setting over==========="
     django.setup()
     cmdline.execute("scrapy crawl bili_statistics".split())
-
-    # cmdline.execute("scrapy crawl lxdzx_bili -o obj.csv".split())
-    # cmdline.execute("scrapy crawl bili_video".split())
-    # cmdline.execute("scrapy crawl bili_video".split())
-    # cmdline.execute("scrapy crawl bili_video_detail".split())
-
-    # cmdline.execute("scrapy crawl bili_video_list ".split())
-
-    # cmdline.execute("scrapy crawl bili_video_list -a names=黑马,".split())
-    # cmdline.execute("scrapy crawl bili_get_mid -a names=黑马,".split())
-    # cmdline.execute("scrapy crawl bili_video_list -a mids=37974444,284797409".split())

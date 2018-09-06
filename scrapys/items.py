@@ -8,7 +8,7 @@
 import scrapy
 from scrapy_djangoitem import DjangoItem
 
-from get_web_data.models import VideoList
+from get_web_data.models import VideoList, PlatformStatistics
 
 
 class ScrapysItem(scrapy.Item):
@@ -19,6 +19,10 @@ class ScrapysItem(scrapy.Item):
 
 class LxdzxBiliItem(DjangoItem):
     django_model = VideoList
+
+
+class PlatformStatisticsItem(DjangoItem):
+    django_model = PlatformStatistics
 
 # class LxdzxBiliItem(scrapy.Item):
 #     title = scrapy.Field()  # 标题

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple client</title>
+
+    <script type="text/javascript">
+
+        var ws;
+
+        function init() {
+            // 获取服务端ip
+            var ip_addr = '192.168.3.195';//document.location.hostname;
+//            var ip_addr = '127.0.0.1';//document.location.hostname;
+            window.WebSocket = window.WebSocket || window.MozWebSocket;
+            var ip_port = 'ws://' + ip_addr + ':8889';
+            console.log("ip_port : " + ip_port);
+            ws = new WebSocket(ip_port);
+
+            // Connect to Web Socket
+            //ws = new WebSocket("ws://localhost:9001/");
+
+            // Set event handlers.
+            ws.onopen = function () {
+                output("onopen");
+            };
+
+            ws.onmessage = function (e) {
+                // e.data contains received string.
+                output("onmessage: " + e.data);
+            };
+
+            ws.onclose = function () {
+                output("onclose");
+            };
+
+            ws.onerror = function (e) {
+                output("onerror");
+                console.log(e)
+            };
+
+        }
+
+        function onSubmit() {
+            var input = document.getElementById("input");
+            // You can send message to the Web Socket using ws.send.
+            ws.send(input.value);
+            output("send: " + input.value);
+//            input.value = "";
+            input.focus();
+        }
+
+        function onCloseClick() {
+            ws.close();
+        }
+
+        function output(str) {
+            var log = document.getElementById("log");
+            var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
+            log.innerHTML = escaped + "<br>" + log.innerHTML;
+        }
+
+    </script>
+</head>
+<body onload="init();">
+<!--<form onsubmit="onSubmit(); return false;">-->
+    <input type="text" id="input">
+    <button  onclick="onSubmit(); return false;">send</button>
+    <button onclick="onCloseClick(); return false;">close</button>
+<!--</form>-->
+<div id="log"></div>
+</body>
+</html>
