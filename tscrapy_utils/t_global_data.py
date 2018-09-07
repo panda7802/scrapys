@@ -1,9 +1,9 @@
 # coding=utf-8
 # 目标项目
 obj_projects = {
-                '284797409': 'java世界第一',
-                '37974444': '黑马程序员'
-                }
+    '284797409': 'java世界第一',
+    '37974444': '黑马程序员'
+}
 
 bili_show_list = [('title', '标题'),
                   ('created', '创建时间'),
@@ -33,6 +33,7 @@ FLAG_KEY_WORD = "FLAG_KEY_WORD"
 FLAG_KEY_MID = "FLAG_KEY_MID"
 FLAG_DATA_ITEM = "FLAG_DATA_ITEM"
 FLAG_VIDEO = "FLAG_VIDEO"
+FLAG_COOKIE = "FLAG_COOKIE"
 
 BASE_COOKIES = {'a': 'b'}
 
@@ -41,12 +42,11 @@ BASE_HEAD = {
     'Connection': 'keep-alive',
     'Cache-Control': 'max-age=0',
     'Upgrade-Insecure-Requests': '1',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:48.0) Gecko/20100101 Firefox/48.0',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
     'Accept-Encoding': 'gzip, deflate, sdch',
     'Accept-Language': 'zh-CN,zh;q=0.8',
 }
-
 
 db_conn = None
 

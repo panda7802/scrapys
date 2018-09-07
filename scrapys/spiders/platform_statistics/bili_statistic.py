@@ -42,7 +42,7 @@ class BiliStatisticSpider(scrapy.Spider):
     def __init__(self, *args, **kwargs):
         super(BiliStatisticSpider, self).__init__(*args, **kwargs)
         # 从数据库获取要爬取的项
-        self.get_items = VideoNameInfos.objects.filter(get_data=0)
+        self.get_items = VideoNameInfos.objects.filter(get_data=0, platform=1)
 
     def start_requests(self):
         print "======= 开始获取B站概况 ======="
@@ -76,8 +76,8 @@ class BiliStatisticSpider(scrapy.Spider):
             # 拿到JSON进行解析
             s_json = response.text
             json_data = json.loads(s_json)
-            data_item['follows'] = json_data['data']['following']
-            data_item['fans'] = json_data['data']['follower']
+            data_item['follows'] = json_data['data']['following']  # 关注
+            data_item['fans'] = json_data['data']['follower']  # 粉丝
             url = get_play_article(mid)
             yield scrapy.Request(url=url, headers=BASE_HEAD, dont_filter=True,
                                  cookies=BASE_COOKIES,
@@ -104,8 +104,8 @@ class BiliStatisticSpider(scrapy.Spider):
             # 拿到JSON进行解析
             s_json = response.text
             json_data = json.loads(s_json)
-            data_item['clicks'] = json_data['data']['archive']['view']
-            data_item['reads'] = json_data['data']['article']['view']
+            data_item['clicks'] = json_data['data']['archive']['view']  # 点击量
+            data_item['reads'] = json_data['data']['article']['view']  # 阅读数
 
             # 保存
             # print data_item
