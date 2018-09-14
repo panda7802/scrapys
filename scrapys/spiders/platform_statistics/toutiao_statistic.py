@@ -63,15 +63,7 @@ class BiliStatisticSpider(scrapy.Spider):
         for item in self.get_items:
             data_item = PlatformStatisticsItem()
             data_item['vid'] = item
-            s_cookie = 'UM_distinctid=165adc7e71711-0b35612dd6f3a88-16347940-1fa400-165adc7e718645;' \
-                       ' tt_webid=6598009680210707971; ccid=f9edb1ae7545d9ccc8a8ad20cc85da32; ' \
-                       'sso_uid_tt=3ce44faae230094f7f6b927e491c0489; toutiao_sso_user=d1a0a66054a78e9b10b770f633dbe86e;' \
-                       ' sso_login_status=1; login_flag=a01cce2fd70988b136d8b39e4f6d889f; ' \
-                       'uid_tt=0770bb049be109862f86d88fe0c2fe92;' \
-                       ' sid_guard="d254f79b9ee58eb8cacf9336621d99ff|1536218916|15552000|Tue\054 05-Mar-2019 07:28:36 GMT";' \
-                       ' uuid="w:f3a93bfdc45846c1977cec12aedce56a"; __tea_sdk__ssid=a1327d39-5b0c-4f4b-83c5-64bcd9f0d303; ' \
-                       'sessionid=eff050e1144f3c2349890035f8ba5a97; _mp_test_key_1=5bbf0577fff3abc5775c0fc6e0e4536e; ' \
-                       'tt_im_token=1536219554336532634698665183177254288576878029243684242076352852'
+            s_cookie = 'UM_distinctid=165adc7e71711-0b35612dd6f3a88-16347940-1fa400-165adc7e718645; tt_webid=6598009680210707971; ccid=f9edb1ae7545d9ccc8a8ad20cc85da32; sso_uid_tt=3ce44faae230094f7f6b927e491c0489; toutiao_sso_user=d1a0a66054a78e9b10b770f633dbe86e; sso_login_status=1; login_flag=a01cce2fd70988b136d8b39e4f6d889f; uid_tt=d34ee18a99085da284d107e58484b73d; sid_guard="d254f79b9ee58eb8cacf9336621d99ff|1536218916|15552000|Tue\054 05-Mar-2019 07:28:36 GMT"; uuid="w:f3a93bfdc45846c1977cec12aedce56a"; __tea_sdk__ssid=a1327d39-5b0c-4f4b-83c5-64bcd9f0d303; _mp_test_key_1=5bbf0577fff3abc5775c0fc6e0e4536e; tt_im_token=1536904286437629942738282838299430575624416090630086523993925706; sessionid=b3612d4303a7c97fc09a62bc325c5428'
             cookies = get_cookie_from_str(s_cookie)
             url = get_fans_count()
             yield scrapy.Request(url=url, headers=BASE_HEAD, dont_filter=True,
