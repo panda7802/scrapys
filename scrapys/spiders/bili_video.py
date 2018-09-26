@@ -34,9 +34,9 @@ class BiliVideoSpider(scrapy.Spider):
     name = 'bili_video'
     allowed_domains = ['space.bilibili.com']
     page_index = 1
-    page_size = 50
+    page_size = 30
 
-    start_urls = [get_curr_url(page_index)]
+    start_urls = [get_curr_url(page_index, page_size=page_size)]
 
     # start_urls = [get_view_url("28834788")]
 
@@ -90,6 +90,7 @@ class BiliVideoSpider(scrapy.Spider):
         # 视频列表
         vlist = json.loads(s_json)['data']['vlist']
         # 处理
+        print "vlist len : " + str(len(vlist))
         for item in vlist:
             bili_item = LxdzxBiliItem()
             for show_item in bili_show_list:
@@ -110,10 +111,12 @@ class BiliVideoSpider(scrapy.Spider):
         self.page_index += 1
         print "page_index : ", self.page_index
         if len(vlist) >= self.page_size:
-            if self.page_index > 2:
-                return
+            # if self.page_index > 2:
+            #     return
             next_url = get_curr_url(self.page_index)
             print "next_url:", next_url
             yield scrapy.Request(url=next_url, headers=BASE_HEAD, dont_filter=True,
                                  cookies=BASE_COOKIES,
                                  meta={'item': bili_item}, callback=self.parse)
+        else:
+            print "vlist is empty"
