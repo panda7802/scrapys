@@ -111,7 +111,7 @@ class BiliVideoSpider(scrapy.Spider):
         self.page_index += 1
         print "page_index : ", self.page_index
         if len(vlist) >= self.page_size:
-            # if self.page_index > 2:
+            # if self.page_index >= 2:
             #     return
             next_url = get_curr_url(self.page_index)
             print "next_url:", next_url

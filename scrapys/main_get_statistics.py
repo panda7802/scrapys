@@ -7,5 +7,5 @@ if __name__ == "__main__":
         print "------1------"
         os.system("python single_get_bili_statistics.py &")
         os.system("python single_get_toutiao_statistics.py &")
-        time.sleep(60)
+        time.sleep(3600)
         print "------2------"
