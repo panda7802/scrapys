@@ -16,12 +16,13 @@ from tscrapy_utils.t_err_info import err_urls
 class TBiliVideoListPipeline(object):
     def __init__(self):
         print "------__init__ BiliVideoListPipeline------"
-        action.write_list_title()
+        # action.write_list_title()
         # action.create_tables()
 
     def process_item(self, item, spider):
         if isinstance(item, TBiliVideoListItem):
-            action.write_list(item)
+            # action.write_list(item)
+            item.save()
         if isinstance(item, TBiliMidItem):
             action.write_mid(item)
         if isinstance(item, LxdzxBiliItem):

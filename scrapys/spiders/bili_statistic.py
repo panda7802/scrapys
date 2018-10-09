@@ -19,7 +19,7 @@ def get_follows_fans(mid=""):
     """
     获取关注和粉丝
     """
-    res = "https://api.bilibili.com/x/relation/stat?vmid=" + mid
+    res = "http://api.bilibili.com/x/relation/stat?vmid=" + mid
     return res
 
 
@@ -27,7 +27,7 @@ def get_play_article(mid=""):
     """
     获取点击量和阅读数
     """
-    res = "https://api.bilibili.com/x/space/upstat?mid=" + mid
+    res = "http://api.bilibili.com/x/space/upstat?mid=" + mid
     return res
 
 
@@ -36,7 +36,7 @@ class BiliStatisticSpider(scrapy.Spider):
     B站基本统计
     """
     name = 'bili_statistics'
-    allowed_domains = ['space.bilibili.com']
+    allowed_domains = ['*']
     start_urls = ['http://space.bilibili.com/']
 
     def __init__(self, *args, **kwargs):
@@ -52,10 +52,16 @@ class BiliStatisticSpider(scrapy.Spider):
             url = get_follows_fans(mid)  # 获取粉丝数等信息
             data_item = PlatformStatisticsItem()
             data_item['vid'] = item
-            print "url : ", url
-            yield scrapy.Request(url=url, headers=BASE_HEAD, dont_filter=True,
-                                 cookies=BASE_COOKIES,
-                                 meta={FLAG_DATA_ITEM: data_item, FLAG_KEY_MID: mid})
+            print "===bili_statistics url : ", url
+            try:
+                yield scrapy.Request(url=url, headers=BASE_HEAD, dont_filter=True,
+                                     cookies=BASE_COOKIES,
+                                     meta={FLAG_DATA_ITEM: data_item, FLAG_KEY_MID: mid}, callback=self.parse)
+            except Exception, e:
+                traceback.print_exc()
+
+    def tmp_parse(self, response):
+        print "---------tmp_parse----------"
 
     def parse(self, response):
         """
@@ -72,7 +78,6 @@ class BiliStatisticSpider(scrapy.Spider):
 
             data_item = response.meta[FLAG_DATA_ITEM]
             mid = response.meta[FLAG_KEY_MID]
-
             # 拿到JSON进行解析
             s_json = response.text
             json_data = json.loads(s_json)
@@ -100,7 +105,6 @@ class BiliStatisticSpider(scrapy.Spider):
 
             data_item = response.meta[FLAG_DATA_ITEM]
             mid = response.meta[FLAG_KEY_MID]
-
             # 拿到JSON进行解析
             s_json = response.text
             json_data = json.loads(s_json)
